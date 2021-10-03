@@ -2,7 +2,10 @@ import notes from "../accets/notes.json";
 
 export default class NotesService {
 	addNote = () => {
-		notes.notes.push("");
+		notes.notes.push({
+			title: "",
+			note: "",
+		});
 
 		return notes;
 	};
@@ -13,8 +16,9 @@ export default class NotesService {
 		return notes;
 	};
 
-	editNote = (index, value) => {
-		notes.notes[index] = value;
+	editNote = (index, text) => {
+
+		notes.notes[index].note = text;
 
 		return notes;
 	};

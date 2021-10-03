@@ -1,7 +1,10 @@
 import {Component} from "react";
 
-import Notes from "../notes";
 import NotesService from "../../repository/notesService";
+
+import Add from "../add";
+import Notes from "../notes";
+import NoteDetail from "../note-detail";
 
 export default class App extends Component {
 	constructor() {
@@ -33,25 +36,34 @@ export default class App extends Component {
 		});
 	};
 
-	onEditNote(index, event) {
-		const value = event.target.value;
-		const notes = this.notesService.editNote(index, value).notes;
-
-		console.log(notes);
+	onEditNote(text) {
+		console.log(text)
+		const notes = this.notesService.editNote(text).notes;
 
 		this.setState({
 			notes,
 		})
 	};
 
+	onShowDetails(index) {
+		// console.log(index)
+	};
+
 	render() {
 		const {notes} = this.state;
-		console.log(notes)
-		return <div className="app">
-			<Notes notes={notes}
-						 onAddNote={this.onAddNote}
-						 onRemoveNote={this.onRemoveNote}
-						 onEditNote={this.onEditNote}/>
-		</div>
+		const showDetails = notes.length > 0 ? <NoteDetail onEditNote={this.onEditNote}/> : null;
+
+		// console.log(notes)
+		return (
+			<div className="app">
+				<Add onAddNote={this.onAddNote}/>
+				<Notes notes={notes}
+							 onRemoveNote={this.onRemoveNote}
+							 onShowDetails={this.onShowDetails}
+							 // onEditNote={this.onEditNote}
+				/>
+				{showDetails}
+			</div>
+		)
 	}
 };

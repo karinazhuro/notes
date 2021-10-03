@@ -1,21 +1,17 @@
-const Notes = ({notes, onAddNote, onRemoveNote, onEditNote}) => {
+import "./notes.css";
+import NoteItems from "../note-items";
+
+const Notes = ({notes, onRemoveNote, onShowDetails}) => {
 	const renderNotes = () => {
-		return notes.map((note, index) => {
-			return (
-				<div key={index}
-						 className="note">
-					<div>
-						<button onClick={() => onRemoveNote(index)}>-</button>
-						{/*<button onClick={onRemoveNote}>edit</button>*/}
-					</div>
-					<textarea onChange={(event) => onEditNote(index, event)}/>
-				</div>
-			)
-		})
+		return notes.map((note, index) => <NoteItems key={index}
+																								 note={note}
+																								 index={index}
+																								 onRemoveNote={onRemoveNote}
+																								 onShowDetails={onShowDetails}/>
+		)
 	};
 
 	return <div className="notes">
-		<button onClick={onAddNote}>+</button>
 		{renderNotes()}
 	</div>
 };
