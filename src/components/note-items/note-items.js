@@ -11,15 +11,13 @@ export default class NoteItems extends Component {
 			onShowDetails
 		} = this.props;
 
-		console.log(note.note.length);
-
-		const titleNote = note.note > 0 ? note.note : `Note ${index + 1}`;
+		const titleNote = note ? `Note` : null;
 
 		return (
-			<div key={index}
-					 className="note"
-					 onClick={() => onShowDetails(index)}>
-				<button onClick={() => onRemoveNote(index)}>-</button>
+			<div className="note"
+					 key={note}
+					 onClick={() => onShowDetails(note)}>
+				<button onClick={() => onRemoveNote(note)}>-</button>
 				<h4>{titleNote}</h4>
 			</div>
 		)

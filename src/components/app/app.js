@@ -10,7 +10,7 @@ export default class App extends Component {
 	constructor() {
 		super();
 		this.state = {
-			notes: [],
+			notes: {},
 		};
 
 		this.onAddNote = this.onAddNote.bind(this);
@@ -21,24 +21,19 @@ export default class App extends Component {
 	notesService = new NotesService();
 
 	onAddNote() {
-		const notes = this.notesService.addNote().notes;
-
 		this.setState({
-			notes,
+			notes: this.notesService.addNote(),
 		});
 	};
 
 	onRemoveNote(key) {
-		const notes = this.notesService.removeNote(key).notes;
-
 		this.setState({
-			notes,
+			notes: this.notesService.removeNote(key),
 		});
 	};
 
 	onEditNote(text) {
-		console.log(text)
-		const notes = this.notesService.editNote(text).notes;
+		const notes = this.notesService.editNote(text);
 
 		this.setState({
 			notes,
@@ -51,16 +46,17 @@ export default class App extends Component {
 
 	render() {
 		const {notes} = this.state;
-		const showDetails = notes.length > 0 ? <NoteDetail onEditNote={this.onEditNote}/> : null;
+		const showDetails = Object.keys(notes).length > 0 ? <NoteDetail onEditNote={this.onEditNote}/> : null;
 
-		// console.log(notes)
+		console.log(notes);
+
 		return (
 			<div className="app">
 				<Add onAddNote={this.onAddNote}/>
 				<Notes notes={notes}
 							 onRemoveNote={this.onRemoveNote}
 							 onShowDetails={this.onShowDetails}
-							 // onEditNote={this.onEditNote}
+					// onEditNote={this.onEditNote}
 				/>
 				{showDetails}
 			</div>

@@ -1,19 +1,22 @@
-import "./notes.css";
 import NoteItems from "../note-items";
 
-const Notes = ({notes, onRemoveNote, onShowDetails}) => {
-	const renderNotes = () => {
-		return notes.map((note, index) => <NoteItems key={index}
-																								 note={note}
-																								 index={index}
-																								 onRemoveNote={onRemoveNote}
-																								 onShowDetails={onShowDetails}/>
-		)
-	};
+import "./notes.css";
 
-	return <div className="notes">
-		{renderNotes()}
-	</div>
+const Notes = ({notes, onRemoveNote, onShowDetails}) => {
+	return (
+		<div className="notes">
+			{
+				Object.keys(notes).map((note, index) => {
+						return <NoteItems key={note}
+															index={index}
+															note={note}
+															onRemoveNote={onRemoveNote}
+															onShowDetails={onShowDetails}/>
+					}
+				)
+			}
+		</div>
+	);
 };
 
 export default Notes;

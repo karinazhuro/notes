@@ -1,17 +1,22 @@
 import notes from "../accets/notes.json";
 
+import {v4 as uuidv4} from 'uuid';
+
 export default class NotesService {
 	addNote = () => {
-		notes.notes.push({
+		const id = uuidv4();
+
+		notes[id] = {
+			id,
 			title: "",
 			note: "",
-		});
+		}
 
 		return notes;
 	};
 
-	removeNote = (key) => {
-		notes.notes.splice(key, 1);
+	removeNote = (id) => {
+		delete notes[id]
 
 		return notes;
 	};
