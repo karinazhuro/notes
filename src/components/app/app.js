@@ -1,8 +1,9 @@
 import {Component} from "react";
 
-import NotesService from "../../repository/notesService";
+import Service from "../../repository/service";
 
 import Add from "../add";
+import TagField from "../tag-field";
 import Notes from "../notes";
 
 export default class App extends Component {
@@ -10,18 +11,20 @@ export default class App extends Component {
 		super();
 		this.state = {
 			notes: {},
+			tags: {},
 			idChangeNote: "",
 		};
 
 		this.onAddNote = this.onAddNote.bind(this);
 		this.onRemoveNote = this.onRemoveNote.bind(this);
 		this.onEditNote = this.onEditNote.bind(this);
+		this.onAddTag = this.onAddTag.bind(this);
 	}
 
-	notesService = new NotesService();
+	service = new Service();
 
 	onAddNote() {
-		const notes = this.notesService.addNote();
+		const notes = this.service.addNote();
 
 		this.setState({
 			notes: notes.notes,
@@ -31,31 +34,42 @@ export default class App extends Component {
 
 	onRemoveNote(key) {
 		this.setState({
-			notes: this.notesService.removeNote(key),
+			notes: this.service.removeNote(key),
 		});
 	};
 
 	onEditNote(text) {
 		const {idChangeNote} = this.state;
-		const notes = this.notesService.editNote(text, idChangeNote);
+		const notes = this.service.editNote(text, idChangeNote);
 
 		this.setState({
 			notes,
 		});
 	};
 
+	onAddTag(tag) {
+		console.log(tag)
+		this.setState({
+			tags: this.service.addTag()
+		})
+	}
 
 	render() {
-		const {notes} = this.state;
+		const {notes, tags} = this.state;
 
-		// console.log(notes);
+		console.log(tags);
 
 		return (
 			<div className="app">
-				<Add onAddNote={this.onAddNote}/>
-				<Notes notes={notes}
-							 onRemoveNote={this.onRemoveNote}
-							 onEditNote={this.onEditNote}/>
+				<header>
+					<Add onAddNote={this.onAddNote}/>
+				</header>
+				<main>
+					<TagField addTag={this.onAddTag}/>
+					<Notes notes={notes}
+								 onRemoveNote={this.onRemoveNote}
+								 onEditNote={this.onEditNote}/>
+				</main>
 			</div>
 		)
 	}

@@ -1,8 +1,9 @@
 import notes from "../accets/notes.json";
+import tags from "../accets/tags.json";
 
 import {v4 as uuidv4} from 'uuid';
 
-export default class NotesService {
+export default class Service {
 	addNote = () => {
 		const id = uuidv4();
 
@@ -27,5 +28,16 @@ export default class NotesService {
 		notes[id].text = text;
 
 		return notes;
+	};
+
+	addTag = () => {
+		const id = uuidv4();
+
+		tags[id] = {
+			id,
+			text: "",
+		};
+
+		return tags;
 	};
 };
