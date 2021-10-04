@@ -1,6 +1,6 @@
 import {Component} from "react";
 
-import "./note-items.css";
+import "./note-items.scss";
 
 export default class NoteItems extends Component {
 	constructor() {

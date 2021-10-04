@@ -1,6 +1,6 @@
 import NoteItems from "../note-items";
 
-import "./notes.css";
+import "./notes.scss";
 
 const Notes = ({notes, onRemoveNote, onEditNote}) => {
 	return (

@@ -1,4 +1,4 @@
-import "./add.css";
+import "./add.scss";
 
 const Add = ({onAddNote}) => {
 	return (
