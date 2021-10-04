@@ -4,13 +4,13 @@ import NotesService from "../../repository/notesService";
 
 import Add from "../add";
 import Notes from "../notes";
-import NoteDetail from "../note-detail";
 
 export default class App extends Component {
 	constructor() {
 		super();
 		this.state = {
 			notes: {},
+			idChangeNote: "",
 		};
 
 		this.onAddNote = this.onAddNote.bind(this);
@@ -21,8 +21,11 @@ export default class App extends Component {
 	notesService = new NotesService();
 
 	onAddNote() {
+		const notes = this.notesService.addNote();
+
 		this.setState({
-			notes: this.notesService.addNote(),
+			notes: notes.notes,
+			idChangeNote: notes.id,
 		});
 	};
 
@@ -33,32 +36,26 @@ export default class App extends Component {
 	};
 
 	onEditNote(text) {
-		const notes = this.notesService.editNote(text);
+		const {idChangeNote} = this.state;
+		const notes = this.notesService.editNote(text, idChangeNote);
 
 		this.setState({
 			notes,
-		})
+		});
 	};
 
-	onShowDetails(index) {
-		// console.log(index)
-	};
 
 	render() {
 		const {notes} = this.state;
-		const showDetails = Object.keys(notes).length > 0 ? <NoteDetail onEditNote={this.onEditNote}/> : null;
 
-		console.log(notes);
+		// console.log(notes);
 
 		return (
 			<div className="app">
 				<Add onAddNote={this.onAddNote}/>
 				<Notes notes={notes}
 							 onRemoveNote={this.onRemoveNote}
-							 onShowDetails={this.onShowDetails}
-					// onEditNote={this.onEditNote}
-				/>
-				{showDetails}
+							 onEditNote={this.onEditNote}/>
 			</div>
 		)
 	}

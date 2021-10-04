@@ -2,16 +2,17 @@ import NoteItems from "../note-items";
 
 import "./notes.css";
 
-const Notes = ({notes, onRemoveNote, onShowDetails}) => {
+const Notes = ({notes, onRemoveNote, onEditNote}) => {
 	return (
 		<div className="notes">
 			{
-				Object.keys(notes).map((note, index) => {
-						return <NoteItems key={note}
-															index={index}
+				Object.values(notes).map((note) => {
+						const {id} = note;
+
+						return <NoteItems key={id}
 															note={note}
 															onRemoveNote={onRemoveNote}
-															onShowDetails={onShowDetails}/>
+															onEditNote={onEditNote}/>
 					}
 				)
 			}

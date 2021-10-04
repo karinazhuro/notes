@@ -8,11 +8,13 @@ export default class NotesService {
 
 		notes[id] = {
 			id,
-			title: "",
-			note: "",
-		}
+			text: "",
+		};
 
-		return notes;
+		return {
+			notes,
+			id,
+		};
 	};
 
 	removeNote = (id) => {
@@ -21,9 +23,8 @@ export default class NotesService {
 		return notes;
 	};
 
-	editNote = (index, text) => {
-
-		notes.notes[index].note = text;
+	editNote = (text, id) => {
+		notes[id].text = text;
 
 		return notes;
 	};

@@ -1,0 +1,39 @@
+.note {
+    width: fit-content;
+    padding: 20px;
+}
+
+.tools {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.note-title {
+    border: none;
+    outline: 0;
+}
+
+.show-hide-note {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.show {
+    transform: rotate(0deg);
+}
+
+.hide {
+    transform: rotate(180deg);
+}
+
+.btn-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+textarea {
+    resize: none;
+}
