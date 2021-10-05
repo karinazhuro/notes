@@ -1,0 +1,24 @@
+.tag-items {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+
+  border: 1px solid #d7d7d7;
+  border-top: none;
+
+  .tag {
+    margin: 5px 0;
+    color: #919191;
+  }
+
+  .btn-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  &:first-child {
+    border-top: 1px solid #d7d7d7;
+  }
+}

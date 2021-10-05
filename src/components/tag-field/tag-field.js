@@ -1,12 +1,14 @@
 import {Component} from "react";
 
+import TagItems from "../tag-items";
+
 import "./tag-field.scss";
 
 export default class TagField extends Component {
 	constructor() {
 		super();
 		this.state = {
-			tags: "",
+			tag: "",
 		}
 
 		this.handleChange = this.handleChange.bind(this);
@@ -14,22 +16,45 @@ export default class TagField extends Component {
 
 	handleChange(e) {
 		this.setState({
-			tags: e.target.value
+			tag: e.target.value
 		});
 	};
 
+	onClearTextField() {
+		this.setState({
+			tag: "",
+		});
+
+	};
+
 	render() {
-		const {onAddTag} = this.props;
-		const {tags} = this.state;
+		const {tags, onAddTag, onRemoveTag} = this.props;
+		const {tag} = this.state;
 
 		return (
 			<div className="tag-field">
-				<input id="tags"
-							 onChange={this.handleChange}/>
-				<button className="btn-tags"
-								onClick={() => onAddTag(tags)}>
-					<span className="material-icons">done</span>
-				</button>
+				<div className="tag-tools">
+					<input className="text-field"
+								 placeholder="Typing..."
+								 onChange={this.handleChange}
+								 value={tag}/>
+					<button className="btn-tags"
+									onClick={() => {
+										onAddTag(tag);
+										this.onClearTextField();
+									}}>
+						<span className="material-icons">done</span>
+					</button>
+				</div>
+				<div className="tags">
+					{
+						Object.values(tags).map(tag => {
+							return <TagItems key={tag.id}
+															 tag={tag}
+															 onRemoveTag={onRemoveTag}/>
+						})
+					}
+				</div>
 			</div>
 		)
 	}

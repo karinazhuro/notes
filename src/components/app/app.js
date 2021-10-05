@@ -6,6 +6,8 @@ import Add from "../add";
 import TagField from "../tag-field";
 import Notes from "../notes";
 
+import "./app.scss";
+
 export default class App extends Component {
 	constructor() {
 		super();
@@ -19,6 +21,7 @@ export default class App extends Component {
 		this.onRemoveNote = this.onRemoveNote.bind(this);
 		this.onEditNote = this.onEditNote.bind(this);
 		this.onAddTag = this.onAddTag.bind(this);
+		this.onRemoveTag = this.onRemoveTag.bind(this);
 	}
 
 	service = new Service();
@@ -48,16 +51,21 @@ export default class App extends Component {
 	};
 
 	onAddTag(tag) {
-		console.log(tag)
 		this.setState({
-			tags: this.service.addTag()
+			tags: this.service.addTag(tag)
 		})
 	}
+
+	onRemoveTag(key) {
+		this.setState({
+			tags: this.service.removeTag(key),
+		});
+	};
 
 	render() {
 		const {notes, tags} = this.state;
 
-		console.log(tags);
+		// console.log(tags);
 
 		return (
 			<div className="app">
@@ -65,7 +73,9 @@ export default class App extends Component {
 					<Add onAddNote={this.onAddNote}/>
 				</header>
 				<main>
-					<TagField addTag={this.onAddTag}/>
+					<TagField tags={tags}
+										onAddTag={this.onAddTag}
+										onRemoveTag={this.onRemoveTag}/>
 					<Notes notes={notes}
 								 onRemoveNote={this.onRemoveNote}
 								 onEditNote={this.onEditNote}/>

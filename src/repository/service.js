@@ -30,14 +30,22 @@ export default class Service {
 		return notes;
 	};
 
-	addTag = () => {
+	addTag = (tag) => {
 		const id = uuidv4();
 
 		tags[id] = {
 			id,
-			text: "",
+			text: `#${tag}`,
 		};
 
 		return tags;
 	};
+
+	removeTag = (id) => {
+		delete tags[id]
+
+		return tags;
+	};
+
+
 };

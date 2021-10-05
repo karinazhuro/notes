@@ -6,7 +6,7 @@ const Notes = ({notes, onRemoveNote, onEditNote}) => {
 	return (
 		<div className="notes">
 			{
-				Object.values(notes).map((note) => {
+				Object.values(notes).map(note => {
 						const {id} = note;
 
 						return <NoteItems key={id}
