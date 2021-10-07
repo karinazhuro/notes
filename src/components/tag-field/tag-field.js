@@ -28,7 +28,7 @@ export default class TagField extends Component {
 	};
 
 	render() {
-		const {tags, onAddTag, onRemoveTag} = this.props;
+		const {tags, onAddTag, onRemoveTag, selectTag, idTag, isCheckTag} = this.props;
 		const {tag} = this.state;
 
 		return (
@@ -51,7 +51,10 @@ export default class TagField extends Component {
 						Object.values(tags).map(tag => {
 							return <TagItems key={tag.id}
 															 tag={tag}
-															 onRemoveTag={onRemoveTag}/>
+															 onRemoveTag={onRemoveTag}
+															 selectTag={selectTag}
+															 idTag={idTag}
+															 isCheckTag={isCheckTag}/>
 						})
 					}
 				</div>

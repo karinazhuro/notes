@@ -15,6 +15,8 @@ export default class App extends Component {
 			notes: {},
 			tags: {},
 			idChangeNote: "",
+			idTag: null,
+			isCheckTag: false,
 		};
 
 		this.onAddNote = this.onAddNote.bind(this);
@@ -22,6 +24,7 @@ export default class App extends Component {
 		this.onEditNote = this.onEditNote.bind(this);
 		this.onAddTag = this.onAddTag.bind(this);
 		this.onRemoveTag = this.onRemoveTag.bind(this);
+		this.selectTag = this.selectTag.bind(this);
 	}
 
 	service = new Service();
@@ -62,10 +65,19 @@ export default class App extends Component {
 		});
 	};
 
-	render() {
-		const {notes, tags} = this.state;
+	selectTag(id) {
+		this.setState({
+			idTag: id !== this.state.idTag ? id : this.state.idTag,
+			isCheckTag: id !== this.state.idTag ? this.state.isCheckTag : !this.state.isCheckTag,
+		});
+	};
 
-		// console.log(tags);
+	sortNotesByTag() {
+
+	};
+
+	render() {
+		const {notes, tags, idTag, isCheckTag} = this.state;
 
 		return (
 			<div className="app">
@@ -75,7 +87,10 @@ export default class App extends Component {
 				<main>
 					<TagField tags={tags}
 										onAddTag={this.onAddTag}
-										onRemoveTag={this.onRemoveTag}/>
+										onRemoveTag={this.onRemoveTag}
+										selectTag={this.selectTag}
+										idTag={idTag}
+										isCheckTag={isCheckTag}/>
 					<Notes notes={notes}
 								 onRemoveNote={this.onRemoveNote}
 								 onEditNote={this.onEditNote}/>

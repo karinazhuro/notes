@@ -1,15 +1,29 @@
+import {Component} from "react";
+
 import "./tag-items.scss";
 
-const TagItems = ({tag, onRemoveTag}) => {
-	return (
-		<div className="tag-items">
-			<p className="tag">{tag.text}</p>
-			<button className="btn-delete"
-							onClick={() => onRemoveTag(tag.id)}>
-				<span className="material-icons">highlight_off</span>
-			</button>
-		</div>
-	)
-};
+export default class TagItems extends Component {
+	constructor() {
+		super();
+		this.state = {}
+	}
 
-export default TagItems;
+
+	render() {
+		const {tag, onRemoveTag, selectTag, idTag, isCheckTag} = this.props;
+		const {id, text} = tag;
+		
+		const tagItemsStyle = isCheckTag && idTag === id ? 'tag-items-check' : '';
+
+		return (
+			<div className={`tag-items ${tagItemsStyle}`}
+					 onClick={() => selectTag(id)}>
+				<p className="tag">{text}</p>
+				<button className="btn-delete"
+								onClick={() => onRemoveTag(id)}>
+					<span className="material-icons">highlight_off</span>
+				</button>
+			</div>
+		)
+	}
+};

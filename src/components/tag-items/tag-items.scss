@@ -6,6 +6,7 @@
 
   border: 1px solid #d7d7d7;
   border-top: none;
+  cursor: pointer;
 
   .tag {
     margin: 5px 0;
@@ -21,4 +22,8 @@
   &:first-child {
     border-top: 1px solid #d7d7d7;
   }
+}
+
+.tag-items-check {
+  background-color: #faebd7;
 }
