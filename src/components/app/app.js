@@ -1,6 +1,7 @@
 import {Component} from "react";
 
 import Service from "../../repository/service";
+import {Provider} from "../notes-service-context";
 
 import Add from "../add";
 import TagField from "../tag-field";
@@ -85,15 +86,18 @@ export default class App extends Component {
 					<Add onAddNote={this.onAddNote}/>
 				</header>
 				<main>
-					<TagField tags={tags}
-										onAddTag={this.onAddTag}
-										onRemoveTag={this.onRemoveTag}
-										selectTag={this.selectTag}
-										idTag={idTag}
-										isCheckTag={isCheckTag}/>
-					<Notes notes={notes}
-								 onRemoveNote={this.onRemoveNote}
-								 onEditNote={this.onEditNote}/>
+					<Provider value={{
+						idTag,
+						isCheckTag,
+						onRemoveTag: this.onRemoveTag,
+						selectTag: this.selectTag,
+						onRemoveNote: this.onRemoveNote,
+						onEditNote: this.onEditNote,
+					}}>
+						<TagField tags={tags}
+											onAddTag={this.onAddTag}/>
+						<Notes notes={notes}/>
+					</Provider>
 				</main>
 			</div>
 		)

@@ -2,7 +2,7 @@ import NoteItems from "../note-items";
 
 import "./notes.scss";
 
-const Notes = ({notes, onRemoveNote, onEditNote}) => {
+const Notes = ({notes}) => {
 	return (
 		<div className="notes">
 			{
@@ -10,9 +10,7 @@ const Notes = ({notes, onRemoveNote, onEditNote}) => {
 						const {id} = note;
 
 						return <NoteItems key={id}
-															note={note}
-															onRemoveNote={onRemoveNote}
-															onEditNote={onEditNote}/>
+															note={note}/>
 					}
 				)
 			}
