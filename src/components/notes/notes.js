@@ -7,12 +7,11 @@ const Notes = ({notes}) => {
 		<div className="notes">
 			{
 				Object.values(notes).map(note => {
-						const {id} = note;
+					const {id} = note;
 
-						return <NoteItems key={id}
-															note={note}/>
-					}
-				)
+					return <NoteItems key={id}
+														note={note}/>
+				})
 			}
 		</div>
 	);

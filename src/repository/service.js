@@ -9,7 +9,9 @@ export default class Service {
 
 		notes[id] = {
 			id,
+			title: "",
 			text: "",
+			tags: new Set(),
 		};
 
 		return {
@@ -24,21 +26,39 @@ export default class Service {
 		return notes;
 	};
 
-	editNote = (text, id) => {
+	editNote = (text, id, tagsSet) => {
 		notes[id].text = text;
+		tagsSet.forEach(tag => notes[id].tags.add(tag));
 
 		return notes;
 	};
 
 	addTag = (tag) => {
-		const id = uuidv4();
-
-		tags[id] = {
-			id,
-			text: `#${tag}`,
-		};
+		tags[tag] = new Set();
 
 		return tags;
+	};
+
+	editTagsForNote = (id, tagsSet) => {
+		tagsSet.forEach(tag => {
+			if (tag in tags) tags[tag].add(id);
+			else tags[tag] = new Set([id]);
+		});
+
+		notes[id].tags.forEach(tag => {
+			if (!tagsSet.has(tag)) {
+				tags[tag].delete(id);
+			}
+
+			if (tags[tag].size === 0) delete tags[tag];
+		});
+
+		notes[id].tags = tagsSet;
+
+		return {
+			notes,
+			tags,
+		};
 	};
 
 	removeTag = (id) => {
@@ -46,6 +66,4 @@ export default class Service {
 
 		return tags;
 	};
-
-
 };

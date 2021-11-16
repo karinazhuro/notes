@@ -4,7 +4,7 @@ import Service from "../../repository/service";
 import {Provider} from "../notes-service-context";
 
 import Add from "../add";
-import TagField from "../tag-field";
+import Tags from "../tags";
 import Notes from "../notes";
 
 import "./app.scss";
@@ -25,7 +25,8 @@ export default class App extends Component {
 		this.onEditNote = this.onEditNote.bind(this);
 		this.onAddTag = this.onAddTag.bind(this);
 		this.onRemoveTag = this.onRemoveTag.bind(this);
-		this.selectTag = this.selectTag.bind(this);
+		this.onSelectTag = this.onSelectTag.bind(this);
+		this.onEditFinishNote = this.onEditFinishNote.bind(this);
 	}
 
 	service = new Service();
@@ -47,16 +48,18 @@ export default class App extends Component {
 
 	onEditNote(text) {
 		const {idChangeNote} = this.state;
-		const notes = this.service.editNote(text, idChangeNote);
+		const tagsSet = this.findTags(text);
 
 		this.setState({
-			notes,
+			notes: this.service.editNote(text, idChangeNote, tagsSet),
 		});
 	};
 
 	onAddTag(tag) {
+		if (tag === '') return;
+
 		this.setState({
-			tags: this.service.addTag(tag)
+			tags: this.service.addTag(tag),
 		})
 	}
 
@@ -66,15 +69,41 @@ export default class App extends Component {
 		});
 	};
 
-	selectTag(id) {
+	onSelectTag(text) {
+		const {idTag} = this.state;
+
 		this.setState({
-			idTag: id !== this.state.idTag ? id : this.state.idTag,
-			isCheckTag: id !== this.state.idTag ? this.state.isCheckTag : !this.state.isCheckTag,
+			idTag: text !== idTag ? text : null,
+			isCheckTag: text !== idTag,
 		});
 	};
 
-	sortNotesByTag() {
+	findTags(text) {
+		return new Set(text.split(' ').filter(word => word.startsWith('#') && word.length > 1).map(word => word.slice(1)))
+	};
 
+	onEditFinishNote(id, text) {
+		this.editTagsForNote(id, this.findTags(text));
+	};
+
+	editTagsForNote(id, tagsSet) {
+		const editTagsForNote = this.service.editTagsForNote(id, tagsSet);
+
+		this.setState({
+			notes: editTagsForNote.notes,
+			tags: editTagsForNote.tags,
+		})
+	};
+
+	sortNotesByTag(notes) {
+		const {tags, idTag} = this.state;
+		const collectNotes = {};
+
+		if (!idTag) return notes;
+
+		tags[idTag].forEach(tag => collectNotes[tag] = notes[tag]);
+
+		return collectNotes;
 	};
 
 	render() {
@@ -89,14 +118,15 @@ export default class App extends Component {
 					<Provider value={{
 						idTag,
 						isCheckTag,
-						onRemoveTag: this.onRemoveTag,
-						selectTag: this.selectTag,
-						onRemoveNote: this.onRemoveNote,
-						onEditNote: this.onEditNote,
+						onRemoveNote: (key) => this.onRemoveNote(key),
+						onEditNote: (text) => this.onEditNote(text),
+						onAddTag: (tag) => this.onAddTag(tag),
+						onRemoveTag: (key) => this.onRemoveTag(key),
+						selectTag: (text) => this.onSelectTag(text),
+						onEditFinishNote: (id, text) => this.onEditFinishNote(id, text),
 					}}>
-						<TagField tags={tags}
-											onAddTag={this.onAddTag}/>
-						<Notes notes={notes}/>
+						<Tags tags={tags}/>
+						<Notes notes={this.sortNotesByTag(notes)}/>
 					</Provider>
 				</main>
 			</div>
