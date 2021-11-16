@@ -4,8 +4,8 @@ import {Consumer} from "../notes-service-context";
 import "./tag-tools.scss";
 
 export default class TagTools extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
 			tag: "",
 		}
